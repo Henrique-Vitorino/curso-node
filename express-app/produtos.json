@@ -1,0 +1,6 @@
+[
+  { "id": 0, "name": "celular", "price": 1000 },
+  { "id": 3, "name": "geladeira", "price": 30200 },
+  { "id": 4, "name": "Freezer", "price": 1000 },
+  { "id": 5, "name": "Maquina", "price": 2004 }
+]
