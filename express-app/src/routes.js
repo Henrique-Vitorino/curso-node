@@ -1,9 +1,10 @@
-const express = require("express");
+import { Router } from "express";
 const fs = require("fs");
 
-const app = express();
+// const { randomUUID } = require("crypto");
 
-const port = 4001;
+const routes = new Router();
+
 let products = [];
 
 fs.readFile("produtos.json", "utf-8", (err, data) => {
@@ -20,18 +21,16 @@ function productFile() {
   });
 }
 
-app.use(express.json());
-
-app.get("/produtos", (req, res) => {
+routes.get("/produtos", (req, res) => {
   res.json(products);
 });
 
-app.get("/produto/:id", (req, res) => {
+routes.get("/produto/:id", (req, res) => {
   const id = req.params.id;
   res.json(products[products.findIndex((produto) => produto.id == id)]);
 });
 
-app.post("/produtos", (req, res) => {
+routes.post("/produtos", (req, res) => {
   const { name, price } = req.body;
   try {
     products.push({
@@ -46,7 +45,7 @@ app.post("/produtos", (req, res) => {
   }
 });
 
-app.put("/produtos/:id", (req, res) => {
+routes.put("/produtos/:id", (req, res) => {
   const { name, price } = req.body;
   const id = req.params.id;
   products[products.findIndex((produto) => produto.id == id)] = {
@@ -58,7 +57,7 @@ app.put("/produtos/:id", (req, res) => {
   productFile();
 });
 
-app.delete("/produto/:id", (req, res) => {
+routes.delete("/produto/:id", (req, res) => {
   const id = req.params.id;
   products.splice(
     products.findIndex((produto) => produto.id == id),
@@ -68,6 +67,4 @@ app.delete("/produto/:id", (req, res) => {
   productFile();
 });
 
-app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`);
-});
+export default routes;
